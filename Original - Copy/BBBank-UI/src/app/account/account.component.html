@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th width="20%">Account Title</th>
+        <th width="20%">Balance</th>
+    </tr>
+    <tr *ngFor="let account of accounts">
+        <td>
+            {{ account?.accountTitle }}
+        </td>
+        <td>
+            {{ account?.currentBalance }}
+        </td>
+    </tr>
+  </table>
+  
+
