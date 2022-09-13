@@ -57,7 +57,7 @@ _____________
 
 ### **Step 1: Creating Client Side Interfaces**
 
-We will create two interfaces for Account and User under models folder to receive data from server side Api, as given below
+We will create two interfaces for Account and User under **models** folder to receive data from server side Api, as given below
 
 ***Account Interface***
 ```ts
@@ -233,7 +233,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/r
 import { EMPTY, Observable } from "rxjs";
 import { catchError, first } from 'rxjs/operators';
 import { Account } from "../models/account";
-import AccountsService from "../services/accounts.service";
+import AccountsService from "./account.service";
 
 @Injectable({ providedIn: 'root' })
 export class AccountResolver implements Resolve<Array<Account>> {
