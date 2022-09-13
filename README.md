@@ -57,7 +57,7 @@ _____________
 
 ### **Step 1: Creating Client Side Interfaces**
 
-We will create two interfaces for **Account** and **User** to receive data, as given below
+We will create two interfaces for Account and User under models folder to receive data from server side Api, as given below
 
 ***Account Interface***
 ```ts
@@ -77,30 +77,9 @@ export interface User {
     profilePicUrl: string;
 }
 ```
+ 
 
-----------------
-
-### **Step 2: Set API Url Base in Environment Variable**
-
-
-To set this up
-
-* Copy the `base URL` from our BBBankAPI project
-* Create a variable `apiUrlBase` in our environment script file
-* Assign this URL to the variable as show below
-
-```ts
-export const environment = {
-  apiUrlBase: 'http://localhost:5070/api/',
-  redirectUri: 'http://localhost:4200', 
-};
-
-
-export default environment;
-```
--------------------
-
- ### **Step 3: Create an Accounts Service**
+ ### **Step 2: Create an Accounts Service**
 
  To create an account service we can follow these steps:
  * First import HttpClientModule in *module.ts* file
@@ -145,7 +124,7 @@ export default class AccountsService {
     return this.httpClient.get<Array<Account>>(`${environment.apiUrlBase}Accounts/GetAllAccounts`);
   }
   ```
-  ### **Step 4: Call the API and Store the Data**
+  ### **Step 3: Call the API and Store the Data**
 
 
   * Create a new component named as `account.component.ts` by running the following command in the terminal 
@@ -154,7 +133,7 @@ export default class AccountsService {
   ```
 Import the following in your component
   ```ts
-import { Component } from '@angular/core';
+import { Component,OnInit  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from '../models/account';
   
@@ -178,7 +157,7 @@ Implement *ngOnInit* of the account component which will subscribe `activatedRou
   this.activatedRoute.data.subscribe({
     next: (data) => {
       // that value will be assigned to a local variable that is used to populate the UI.
-      this.accounts = data['accounts'].result;
+      this.accounts = data['accounts'];
     },
     error: (error) => {
       console.log(error);
@@ -188,7 +167,7 @@ Implement *ngOnInit* of the account component which will subscribe `activatedRou
   ```
  
 
-### **Step 5:  Creating Table and Printing Returned Data**
+### **Step 4:  Creating Table and Printing Returned Data**
 
 Create a simple table in the `account.component.html` file as shown below to show all accounts information like `title` and `current balance`
 
@@ -245,7 +224,7 @@ table {
     border: 0;
 }
 ```
-### **Step 6: Create a Resolver**
+### **Step 5: Create a Resolver**
 Create a new typescript file to make a resolver named as `account.resolver.ts`. We have injected `AccountsService` in the constructor and called its `getAllAccounts` method in the `resolve` function as given below 
 
 ```ts
@@ -280,7 +259,7 @@ Using **first()** because zero items emitted to be considered an error condition
 
 **catchError** will *handle any error* if there is any, doing above mentioned we handle it or return empty observable.
 
-### **Step 7: Create a Route Parameter for the Component**
+### **Step 6: Create a Route Parameter for the Component**
 
 Open the `routing.module.ts` file and add the given import
 
@@ -291,7 +270,9 @@ import { AccountResolver } from './resolver/account.resolver';
 Add the given route to the `Routes` array with '' as a path which will load `AccountComponent.ts`. 
 
 ```ts
-{ path: '', component: AccountComponent, resolve: {accounts: AccountResolver} },
+const routes: Routes = [
+  { path: '', component: AccountComponent, resolve: {accounts: AccountResolver} },
+];
 ```
 
 The `resolve` property here will acts as a gateway between the API response and the route which will call the `AccountResolver` to resolve the data before loading the component
